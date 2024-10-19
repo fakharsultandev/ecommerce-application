@@ -4,9 +4,11 @@ import ProductListCard from "./ProductListItem";
 import ProductCard from "./ProductCard";
 import Pagination from "./Pagination";
 import PageTitleSection from "./common/PageTitleSection";
+import ProductFilterSidebar from "./ProductFilterSidebar";
 
 function MainProducts({ products }) {
   const [viewType, setViewType] = useState("grid");
+  const [viewFilter, setFilterView] = useState(false);
 
   const getProductViewClasses = () => {
     let classes =
@@ -18,12 +20,9 @@ function MainProducts({ products }) {
   };
 
   return (
-    <div className="p-4 max-w-screen-2xl m-auto ">
-      <PageTitleSection
-        title="New Arrivals"
-        slogan=" Shop through our latest selection of Fashion"
-      />
-      <ProductHandlersHeader handleViewType={setViewType} />
+    <div className="p-4 max-w-screen-2xl m-auto">
+      <ProductHandlersHeader handleViewType={setViewType} handleFilterSidebar={setFilterView}/>
+      <ProductFilterSidebar enable={viewFilter} handleFilterSidebar={setFilterView}/>
       <div className={getProductViewClasses()}>
         {products.map((p) =>
           viewType === "list" ? (
