@@ -24,7 +24,7 @@ const Menu = ({ options }) => {
 
   const getClasses = useCallback(() => {
     let classes =
-      "absolute shadow-lg w-60 border p-2 right-2 bg-white rounded-lg ";
+      "absolute shadow-lg w-60 border p-2 right-2 bg-white rounded-lg z-10 ";
     classes += "transition-all duration-300 ease-in-out ";
     if (visible) {
       classes += "opacity-100 translate-y-0";
@@ -52,7 +52,7 @@ const Menu = ({ options }) => {
         {options.map((option) => (
           <li
             onClick={() => handleOptionClick(option)}
-            className="cursor-pointer hover:bg-gray-200 p-2 rounded transition-all duration-200 ease-in-out"
+            className="cursor-pointer hover:bg-gray-100 p-2 rounded transition-all duration-200 ease-in-out"
             key={option.id}
           >
             {option.title}

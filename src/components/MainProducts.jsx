@@ -3,7 +3,6 @@ import ProductHandlersHeader from "./ProductFilterHeader";
 import ProductListCard from "./ProductListItem";
 import ProductCard from "./ProductCard";
 import Pagination from "./Pagination";
-import PageTitleSection from "./common/PageTitleSection";
 import ProductFilterSidebar from "./ProductFilterSidebar";
 
 function MainProducts({ products }) {
@@ -21,8 +20,14 @@ function MainProducts({ products }) {
 
   return (
     <div className="p-4 max-w-screen-2xl m-auto">
-      <ProductHandlersHeader handleViewType={setViewType} handleFilterSidebar={setFilterView}/>
-      <ProductFilterSidebar enable={viewFilter} handleFilterSidebar={setFilterView}/>
+      <ProductHandlersHeader
+        handleViewType={setViewType}
+        handleFilterSidebar={setFilterView}
+      />
+      <ProductFilterSidebar
+        enable={viewFilter}
+        handleFilterSidebar={setFilterView}
+      />
       <div className={getProductViewClasses()}>
         {products.map((p) =>
           viewType === "list" ? (

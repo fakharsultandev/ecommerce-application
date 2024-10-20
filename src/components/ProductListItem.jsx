@@ -1,45 +1,69 @@
 import { StarIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useCallback, useState } from "react";
+import ProductDetailCard from "./ProductDetailCard";
 
-const ProductListCard = ({ product }) => {
-  const rating = Array(5)
-    .fill(null)
-    .map((_, index) => (
-      <StarIcon
-        key={index}
-        className={`w-5 h-5 ${
-          index < product.rating ? "fill-primary text-primary" : "text-primary"
-        }`}
-      />
-    ));
+const ProductListCard = ({ product = { rating: 0 } }) => {
+  const rating = Array.from({ length: 5 }).map((_, index) => (
+    <StarIcon
+      key={index}
+      className={`w-5 h-5 ${
+        index < product.rating ? "fill-primary text-primary" : "text-gray-300"
+      }`}
+    />
+  ));
+
+  const [productDetailMode, setProductDetailMode] = useState(false);
+
+  const handleProductDetailMode = useCallback(() => {
+    setProductDetailMode(true);
+  }, []);
+
+  const handleDisableProductDetailMode = useCallback(() => {
+    setProductDetailMode(false);
+  }, []);
 
   return (
-    <div className="w-full h-fit overflow-hidden transition-all border rounded-lg hover:shadow-lg cursor-pointer flex">
-      <div className="aspect-square overflow-hidden">
-        <img
-          src={`/productImages/${product.image}`}
-          alt="Product image"
-          className="object-cover size-52 p-2 "
-        />
-      </div>
-      <div className="p-6">
-        <div className="text-lg font-semibold mb-2 line-clamp-1">
-          {product.title}
+    <>
+      <ProductDetailCard
+        enable={productDetailMode}
+        product={product}
+        handleDisable={handleDisableProductDetailMode}
+      />
+      <div
+        onClick={handleProductDetailMode}
+        className="w-full h-fit overflow-hidden transition-transform transform hover:scale-105 border rounded-lg shadow-md hover:shadow-lg cursor-pointer flex flex-col md:flex-row"
+      >
+        <div className="block mx-auto sm:mx-0 sm:flex-shrink-0 h-36 rounded-full">
+          <img
+            src={`/productImages/${product.image}`}
+            alt={product.title}
+            className="object-cover w-full h-full"
+            loading="lazy"
+          />
         </div>
-        <p className="text-muted-foreground mb-4 line-clamp-2">
-          {product.description}
-        </p>
-        <div className="flex items-center gap-10 mb-4 flex-wrap">
-          <span className="md:text-2xl font-bold">${product.price}</span>
-          <div className="flex items-center  max-md:hidden">
-            {rating}
-            <span className="ml-2 text-sm text-muted-foreground">
-              ({product.rating})
+        <div className="p-6 flex flex-col justify-between w-full md:w-2/3">
+          <div>
+            <div className="text-lg font-semibold mb-2 line-clamp-1">
+              {product.title}
+            </div>
+            <p className="text-gray-600 mb-4 line-clamp-2">
+              {product.description}
+            </p>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xl font-bold text-primary">
+              ${product.price}
             </span>
+            <div className="flex items-center">
+              {rating}
+              <span className="ml-2 text-sm text-gray-500">
+                ({product.rating})
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
