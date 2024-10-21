@@ -1,9 +1,13 @@
 import React, { useCallback, useState } from "react";
 import { BsStarFill } from "react-icons/bs";
+
+import Button from "./common/Button";
 import ProductDetailCard from "./ProductDetailCard";
+import { useCart } from "../hooks/useCart";
 
 const ProductCard = React.memo(({ product }) => {
   const [productDetailMode, setProductDetailMode] = useState(false);
+  const { addItemToCart } = useCart(); // useCart hook
 
   const handleProductDetailMode = useCallback(() => {
     setProductDetailMode(true);
@@ -20,10 +24,7 @@ const ProductCard = React.memo(({ product }) => {
         product={product}
         handleDisable={handleDisableProductDetailMode}
       />
-      <div
-        onClick={handleProductDetailMode}
-        className="z-0 w-full h-full overflow-hidden transition-transform duration-300 ease-in-out transform hover:scle-105 border rounded-lg hover:shadow-lg cursor-pointer"
-      >
+      <div className="z-0 w-full h-full overflow-hidden transition-transform duration-300 ease-in-out transform hover:scle-105 border rounded-lg hover:shadow-lg cursor-pointer bg-gray-100">
         <div className="flex flex-col h-full">
           <div className="aspect-square overflow-hidden">
             <img
@@ -46,10 +47,19 @@ const ProductCard = React.memo(({ product }) => {
                 </span>
               </div>
             </div>
-            <div className="p-6 pt-0 max-md:hidden mt-auto">
-              <button aria-label="Add this product to cart" className="w-full bg-zinc-900 py-2 rounded-full text-white">
+            <div className="pt-4  max-md:hidden mt-auto grid grid-cols-2 md:grid-cols-1 gap-2">
+              <Button
+                onClick={handleProductDetailMode}
+                className="rounded-full px-4 border-zinc-600"
+              >
+                View Detail
+              </Button>{" "}
+              <Button
+                onClick={() => addItemToCart(product)}
+                className="px-6 bg-zinc-900 py-2 rounded-full text-white"
+              >
                 Add to Cart
-              </button>
+              </Button>
             </div>
           </div>
         </div>

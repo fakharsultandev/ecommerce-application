@@ -1,66 +1,108 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { BiSort } from "react-icons/bi";
+import PropTypes from "prop-types";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+  createContext,
+} from "react";
 
-const Menu = ({ options }) => {
-  const [visible, setVisible] = useState(false);
-  const [currentSelect, setSelectedOption] = useState("Featured");
-  const menuRef = useRef(null);
+const MenuContext = createContext();
 
-  const handleClickOutside = useCallback((event) => {
-    if (visible && menuRef.current && !menuRef.current.contains(event.target)) {
-      setVisible(false);
-    }
-  }, [visible, menuRef]);
+const handleClickOutside = (event, menuRef, closeMenu) => {
+  if (menuRef.current && !menuRef.current.contains(event.target)) closeMenu();
+};
 
+const Menu = ({ children }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null); // Create a ref to the menu element
+
+  const toggleMenu = useCallback(
+    () => setMenuOpen((prevState) => !prevState),
+    []
+  );
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+
+  //Close menu on click outside
   useEffect(() => {
-    if (visible) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [visible, handleClickOutside]);
-
-  const getClasses = useCallback(() => {
-    let classes =
-      "absolute shadow-lg w-60 border p-2 right-2 bg-white rounded-lg z-10 ";
-    classes += "transition-all duration-300 ease-in-out ";
-    if (visible) {
-      classes += "opacity-100 translate-y-0";
-    } else {
-      classes += "opacity-0 -translate-y-2 pointer-events-none";
-    }
-    return classes;
-  }, [visible]);
-
-  const handleOptionClick = useCallback((option) => {
-    setSelectedOption(option.title);
-    setVisible(false);
-  }, []);
+    document.addEventListener("mousedown", (event) =>
+      handleClickOutside(event, menuRef, closeMenu)
+    );
+    return () =>
+      document.removeEventListener("mousedown", (event) =>
+        handleClickOutside(event, menuRef, closeMenu)
+      );
+  }, [closeMenu]);
 
   return (
-    <div className="relative" ref={menuRef}>
-      <button
-        onClick={() => setVisible(!visible)}
-        className="border p-2 px-4 rounded-lg flex items-center gap-2 transition-all duration-300 ease-in-out hover:bg-gray-100"
-      >
-        <BiSort />
-        {currentSelect}
-      </button>
-      <ul className={getClasses()}>
-        {options.map((option) => (
-          <li
-            onClick={() => handleOptionClick(option)}
-            className="cursor-pointer hover:bg-gray-100 p-2 rounded transition-all duration-200 ease-in-out"
-            key={option.id}
-          >
-            {option.title}
-          </li>
-        ))}
-      </ul>
+    <MenuContext.Provider value={{ menuOpen, toggleMenu, closeMenu }}>
+      <div ref={menuRef} className="relative">
+        {children}
+      </div>
+    </MenuContext.Provider>
+  );
+};
+
+Menu.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+const MenuButton = ({ children, className = " " }) => {
+  const { toggleMenu, menuOpen } = useContext(MenuContext);
+  return (
+    <button
+      onClick={toggleMenu}
+      className={`menu-button ${className}`}
+      aria-expanded={menuOpen}
+    >
+      {children}
+    </button>
+  );
+};
+
+MenuButton.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
+
+const MenuList = ({ children, className = " " }) => {
+  const { menuOpen } = useContext(MenuContext);
+
+  return (
+    menuOpen && (
+      <div className={`menu-list absolute z-30 ${className}`}>{children}</div>
+    )
+  );
+};
+
+MenuList.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
+
+const MenuItem = ({ children, onClick, className = " " }) => {
+  const { closeMenu } = useContext(MenuContext);
+
+  const handleClick = () => {
+    onClick && onClick();
+    closeMenu();
+  };
+
+  return (
+    <div
+      onClick={handleClick}
+      className={`menu-item cursor-pointer ${className}`}
+    >
+      {children}
     </div>
   );
 };
 
-export default Menu;
+MenuItem.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+};
+
+export { Menu, MenuButton, MenuList, MenuItem };

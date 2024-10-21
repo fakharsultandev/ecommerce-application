@@ -2,7 +2,7 @@ const products = [
   {
     id: 1,
     title: "Sleek Wireless Earbuds",
-    category: "Electronics",
+    category: "electronics",
     price: 129.99,
     rating: 4.5,
     description:
@@ -12,7 +12,7 @@ const products = [
   {
     id: 2,
     title: "Ergonomic Office Chair",
-    category: "Furniture",
+    category: "furniture",
     price: 249.99,
     rating: 4.2,
     description:
@@ -22,7 +22,7 @@ const products = [
   {
     id: 3,
     title: "Stainless Steel Water Bottle",
-    category: "Kitchen",
+    category: "kitchen",
     price: 24.99,
     rating: 4.7,
     description:
@@ -32,7 +32,7 @@ const products = [
   {
     id: 4,
     title: "Organic Cotton T-Shirt",
-    category: "Clothing",
+    category: "clothing",
     price: 19.99,
     rating: 4.3,
     description:
@@ -42,7 +42,7 @@ const products = [
   {
     id: 5,
     title: "Smart Home Security Camera",
-    category: "Electronics",
+    category: "electronics",
     price: 79.99,
     rating: 4.4,
     description:
@@ -52,7 +52,7 @@ const products = [
   {
     id: 6,
     title: "Leather Messenger Bag",
-    category: "Accessories",
+    category: "accessories",
     price: 89.99,
     rating: 4.6,
     description:
@@ -62,7 +62,7 @@ const products = [
   {
     id: 7,
     title: "Yoga Mat",
-    category: "Fitness",
+    category: "fitness",
     price: 34.99,
     rating: 4.8,
     description:
@@ -72,7 +72,7 @@ const products = [
   {
     id: 8,
     title: "Ceramic Plant Pot Set",
-    category: "Home Decor",
+    category: "home-decor",
     price: 39.99,
     rating: 4.1,
     description:
@@ -82,7 +82,7 @@ const products = [
   {
     id: 9,
     title: "Portable Bluetooth Speaker",
-    category: "Electronics",
+    category: "electronics",
     price: 59.99,
     rating: 4.3,
     description:
@@ -92,7 +92,7 @@ const products = [
   {
     id: 10,
     title: "Stainless Steel Cookware Set",
-    category: "Kitchen",
+    category: "kitchen",
     price: 199.99,
     rating: 4.7,
     description:
@@ -102,7 +102,7 @@ const products = [
   {
     id: 11,
     title: "Wireless Gaming Mouse",
-    category: "Electronics",
+    category: "electronics",
     price: 69.99,
     rating: 4.5,
     description:
@@ -112,7 +112,7 @@ const products = [
   {
     id: 12,
     title: "Leather Wallet",
-    category: "Accessories",
+    category: "accessories",
     price: 44.99,
     rating: 4.4,
     description:
@@ -122,7 +122,7 @@ const products = [
   {
     id: 13,
     title: "Adjustable Dumbbell Set",
-    category: "Fitness",
+    category: "fitness",
     price: 299.99,
     rating: 4.6,
     description:
@@ -132,7 +132,7 @@ const products = [
   {
     id: 14,
     title: "Scented Soy Candle",
-    category: "Home Decor",
+    category: "home-decor",
     price: 19.99,
     rating: 4.2,
     description:
@@ -142,7 +142,7 @@ const products = [
   {
     id: 15,
     title: "Wireless Charging Pad",
-    category: "Electronics",
+    category: "electronics",
     price: 29.99,
     rating: 4.3,
     description:
@@ -152,7 +152,7 @@ const products = [
   {
     id: 16,
     title: "Insulated Travel Mug",
-    category: "Kitchen",
+    category: "kitchen",
     price: 24.99,
     rating: 4.5,
     description:
@@ -162,7 +162,7 @@ const products = [
   {
     id: 17,
     title: "Polarized Sunglasses",
-    category: "Accessories",
+    category: "accessories",
     price: 79.99,
     rating: 4.4,
     description:
@@ -172,7 +172,7 @@ const products = [
   {
     id: 18,
     title: "Smart Digital Scale",
-    category: "Fitness",
+    category: "fitness",
     price: 49.99,
     rating: 4.1,
     description:
@@ -182,7 +182,7 @@ const products = [
   {
     id: 19,
     title: "Throw Pillow Set",
-    category: "Home Decor",
+    category: "home-decor",
     price: 34.99,
     rating: 4.3,
     description:
@@ -192,7 +192,7 @@ const products = [
   {
     id: 20,
     title: "Portable Power Bank",
-    category: "Electronics",
+    category: "electronics",
     price: 39.99,
     rating: 4.6,
     description:
@@ -201,7 +201,6 @@ const products = [
   },
 ];
 
-
 export function getProducts() {
-  return products.filter(p => p);
+  return products.filter((p) => p);
 }
