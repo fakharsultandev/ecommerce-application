@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
 import paginate from "./utils/paginate";
 import Pagination from "./Pagination";
@@ -22,8 +22,8 @@ const filters = [
   { id: 2, name: "Accessories", value: "accessories" },
   { id: 3, name: "Clothing", value: "clothing" },
   { id: 4, name: "Electronics", value: "electronics" },
-  { id: 5, name: "Home & Garden", value: "home-garden" },
-  { id: 6, name: "Sports", value: "sports" },
+  { id: 5, name: "Home & Decoration", value: "home-decor" },
+  { id: 6, name: "Furniture", value: "furniture" },
 ];
 
 const listViewTypes = [
@@ -44,13 +44,19 @@ function Products() {
   const [viewType, setViewType] = useState("grid");
   const [currentPage, setCurrentPage] = useState(1);
   const [viewFilter, setFilterView] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState([]);
 
-  useEffect(() => {
+  const fetchProducts = async () => {
     try {
-      setProducts(getProducts());
+      const fetchedProducts = await getProducts();
+      setProducts(fetchedProducts);
     } catch (error) {
       console.error(`Error fetching products: ${error}`);
     }
+  };
+
+  useEffect(() => {
+    fetchProducts();
   }, []);
 
   const handleSort = (sortOption) => {
@@ -71,22 +77,18 @@ function Products() {
   const handleProductFilters = (filters) => {
     const existedProducts = [...products];
     const filteredProducts = existedProducts.filter((product) => {
-      filters.forEach((filter) => {
-        if (product.category === filter) {
-          return product;
-        }
-      });
+      return filters.some((filter) => product.category === filter);
     });
 
-    console.log(filters);
-    
-
-    setProducts(filteredProducts);
+    setSelectedFilters(filteredProducts);
   };
 
+  const filteredProducts = selectedFilters.length ? selectedFilters : products;
+  
+
   const itemsPerPage = 8;
-  const totalProducts = products.length;
-  const paginatedProducts = paginate(products, itemsPerPage, currentPage);
+  const totalProducts = filteredProducts.length;
+  const paginatedProducts = useMemo(() => paginate(filteredProducts, itemsPerPage, currentPage), [filteredProducts, itemsPerPage, currentPage]);
 
   return (
     <div className="p-4 max-w-screen-2xl m-auto">

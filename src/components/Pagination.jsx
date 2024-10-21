@@ -7,7 +7,7 @@ function Pagination({ itemsPerPage, onPaginate, totalItems, currentPage }) {
   console.log(pages);
 
   return (
-    <div className="flex gap-2 my-20 items-center justify-center ">
+    pages.length > 1 && <div className="flex gap-2 my-20 items-center justify-center ">
       {pages.map((page) => (
         <div
           key={page}
